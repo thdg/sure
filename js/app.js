@@ -55,7 +55,7 @@ function init() {
     container = document.createElement( 'div' );
     document.body.appendChild( container );
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
-    camera.position.z = 250;
+
 
     // scene
     scene = new THREE.Scene();
@@ -64,10 +64,13 @@ function init() {
     var pointLight = new THREE.PointLight( 0xffffff, 0.8 );
     camera.add( pointLight );
     camera.position.y = HEIGHT;
+    camera.position.z = 500;
     scene.add( camera );
     // model
 
-    scene.add(MODELS["castle"]);
+    var castle = MODELS["castle"];
+    castle.rotateY(-Math.PI/2);
+    scene.add(castle);
 
     var numberOfTrees = 2000;
     for (var i=0; i<numberOfTrees; i++) {
