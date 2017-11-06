@@ -5,8 +5,10 @@ var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 
 var MODELS = {};
+var HEIGHT = 2.5;
 
 var loaded = 0, loading = 0;
+var prevTime;
 
 loadAsset("castle", "SM_Fort", 1.0);
 loadAsset("tree1", "sapin", 2.0);
@@ -17,6 +19,7 @@ loadAsset("tree3", "arbre1", 0.75);
     console.log("loading: " + loaded + "/" + loading);
     if (loaded === loading) {
         init();
+        prevTime = performance.now();
         animate();
         return;
     }
@@ -60,6 +63,7 @@ function init() {
     scene.add( ambientLight );
     var pointLight = new THREE.PointLight( 0xffffff, 0.8 );
     camera.add( pointLight );
+    camera.position.y = HEIGHT;
     scene.add( camera );
     // model
 
@@ -95,6 +99,8 @@ function init() {
     renderer.setClearColor( 0x93f4ff, 1 );
     container.appendChild( renderer.domElement );
     document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+    document.addEventListener( 'keydown', onKeyDown, false );
+    document.addEventListener( 'keyup', onKeyUp, false );
     //
     window.addEventListener( 'resize', onWindowResize, false );
 }
@@ -109,14 +115,50 @@ function onDocumentMouseMove( event ) {
     mouseX = ( event.clientX - windowHalfX ) / 2;
     mouseY = ( event.clientY - windowHalfY ) / 2;
 }
-//
+
+KEYCODES = {
+    "left": 37,
+    "up": 38,
+    "right": 39,
+    "down": 40,
+    "w": 87,
+    "a": 65,
+    "s": 83,
+    "d": 68,
+};
+KEYPRESSED = {};
+
+function onKeyDown(event) {
+    var key = event.keyCode;
+    KEYPRESSED[key] = true;
+}
+
+function onKeyUp(event) {
+    var key = event.keyCode;
+    KEYPRESSED[key] = false;
+}
+
+
+
 function animate() {
     requestAnimationFrame( animate );
     render();
 }
+
+var movementSpeed = 30;
+var rotationSpeed = 1;
 function render() {
-    camera.position.x += ( mouseX - camera.position.x ) * .05;
-    camera.position.y += ( - mouseY - camera.position.y ) * .05;
-    camera.lookAt( scene.position );
+    var time = performance.now();
+    var dt = ( time - prevTime ) / 1000;
+    prevTime = time;
+
+    var dir = camera.getWorldDirection();
+    if (KEYPRESSED[KEYCODES["w"]]) camera.position.add(dir.multiplyScalar(movementSpeed * dt));
+    if (KEYPRESSED[KEYCODES["s"]]) camera.position.sub(dir.multiplyScalar(movementSpeed * dt));
+    if (KEYPRESSED[KEYCODES["a"]]) camera.rotation.y += rotationSpeed * dt;
+    if (KEYPRESSED[KEYCODES["d"]]) camera.rotation.y -= rotationSpeed * dt;
+
+
+
     renderer.render( scene, camera );
 }
