@@ -65,7 +65,7 @@ function init() {
 
     scene.add(MODELS["castle"]);
 
-    var numberOfTrees = 1000;
+    var numberOfTrees = 2000;
     for (var i=0; i<numberOfTrees; i++) {
         var tree = MODELS["tree"+(i%3+1)].clone();
         var randomPos = function(min, max) {
@@ -74,7 +74,7 @@ function init() {
             v.rotateAround(new THREE.Vector2(0, 0), Math.random()*360);
             return v;
         };
-        var pos = randomPos(50, 350);
+        var pos = randomPos(50, 1000);
         tree.position.x += pos.x;
         tree.position.z += pos.y;
         tree.scale.multiplyScalar(Math.random()*0.5+0.75);
@@ -82,7 +82,7 @@ function init() {
     }
 
 
-    var geometry = new THREE.PlaneGeometry( 1000, 1000, 32 );
+    var geometry = new THREE.PlaneGeometry( 10000, 10000, 32 );
     var material = new THREE.MeshBasicMaterial( {color: 0x51a540, side: THREE.DoubleSide} );
     var plane = new THREE.Mesh( geometry, material );
     plane.rotation.x = -Math.PI/2;
@@ -92,6 +92,7 @@ function init() {
     renderer = new THREE.WebGLRenderer();
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setClearColor( 0x93f4ff, 1 );
     container.appendChild( renderer.domElement );
     document.addEventListener( 'mousemove', onDocumentMouseMove, false );
     //
