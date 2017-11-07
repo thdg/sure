@@ -7,6 +7,13 @@ Setup your name and email::
     git config --global user.email "Your@Email.dat"
 
 
+Status report
+-------------
+
+To see changes that have been made or what is to be committed::
+
+    git status
+
 Adding files
 ------------
 
