@@ -47,4 +47,4 @@ or::
 
     git pull --rebase
 
-Pilling might cause merge conflicts, follow the instructions from git to resolve them.
+Pulling might cause merge conflicts, follow the instructions from git to resolve them.
