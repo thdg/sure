@@ -27,6 +27,13 @@ loadAsset("dino", "dino", 10.00, new THREE.Vector3(0, Math.PI, 0), new THREE.Vec
     setTimeout(load, 100);
 })();
 
+
+Player = {
+    realPosition = new THREE.Vector3(0,0,0),
+
+};
+
+
 function loadAsset(name, file, scale, rotation, translation) {
     loading++;
     var onProgress = function ( xhr ) {
@@ -66,7 +73,6 @@ function init() {
     container = document.createElement( 'div' );
     document.body.appendChild( container );
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
-
 
     // scene
     scene = new THREE.Scene();
@@ -165,7 +171,9 @@ function animate() {
 }
 
 var movementSpeed = 30;
-var rotationSpeed = 1;
+var rotationSpeed = 2;
+var rotationAlterLeft = 1.25;
+var rotationAlterRight = 0.75;
 function render() {
     var time = performance.now();
     var dt = ( time - prevTime ) / 1000;
@@ -174,8 +182,8 @@ function render() {
     var dir = camera.getWorldDirection();
     if (KEYPRESSED[KEYCODES["w"]]) camera.position.add(dir.multiplyScalar(movementSpeed * dt));
     if (KEYPRESSED[KEYCODES["s"]]) camera.position.sub(dir.multiplyScalar(movementSpeed * dt));
-    if (KEYPRESSED[KEYCODES["a"]]) camera.rotation.y += rotationSpeed * dt;
-    if (KEYPRESSED[KEYCODES["d"]]) camera.rotation.y -= rotationSpeed * dt;
+    if (KEYPRESSED[KEYCODES["a"]]) camera.rotation.y += rotationSpeed * rotationAlterLeft * dt;
+    if (KEYPRESSED[KEYCODES["d"]]) camera.rotation.y -= rotationSpeed * rotationAlterRight * dt;
 
 
 
