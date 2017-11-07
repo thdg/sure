@@ -14,6 +14,7 @@ loadAsset("castle", "SM_Fort", 1.0);
 loadAsset("tree1", "sapin", 2.0);
 loadAsset("tree2", "sapin2", 2.0);
 loadAsset("tree3", "arbre1", 0.75);
+loadAsset("dino", "dino", 10.00);
 
 (function load() {
     console.log("loading: " + loaded + "/" + loading);
@@ -70,7 +71,15 @@ function init() {
 
     var castle = MODELS["castle"];
     castle.rotateY(-Math.PI/2);
+    castle.position.y = -0.2;
     scene.add(castle);
+
+    var dino = MODELS["dino"].clone();
+    dino.position.z = 400;
+    dino.position.y = 3.1;
+    dino.position.x = 0;
+    dino.rotateY(Math.PI);
+    scene.add(dino);
 
     var numberOfTrees = 2000;
     for (var i=0; i<numberOfTrees; i++) {
