@@ -10,11 +10,11 @@ var HEIGHT = 2.5;
 var loaded = 0, loading = 0;
 var prevTime;
 
-loadAsset("castle", "SM_Fort", 1.0);
+loadAsset("castle", "SM_Fort", 1.0, new THREE.Vector3(0, -Math.PI/2, 0), new THREE.Vector3(0, -0.2, 0));
 loadAsset("tree1", "sapin", 2.0);
 loadAsset("tree2", "sapin2", 2.0);
 loadAsset("tree3", "arbre1", 0.75);
-loadAsset("dino", "dino", 10.00);
+loadAsset("dino", "dino", 10.00, new THREE.Vector3(0, Math.PI, 0), new THREE.Vector3(0, 3.1, 0));
 
 (function load() {
     console.log("loading: " + loaded + "/" + loading);
@@ -27,7 +27,7 @@ loadAsset("dino", "dino", 10.00);
     setTimeout(load, 100);
 })();
 
-function loadAsset(name, file, scale) {
+function loadAsset(name, file, scale, rotation, translation) {
     loading++;
     var onProgress = function ( xhr ) {
         if ( xhr.lengthComputable ) {
@@ -46,6 +46,16 @@ function loadAsset(name, file, scale) {
         objLoader.setPath( 'obj/' );
         objLoader.load( file + '.obj', function ( object ) {
             object.scale.multiplyScalar(scale);
+            if (rotation) {
+                object.rotateX(rotation.x);
+                object.rotateY(rotation.y);
+                object.rotateZ(rotation.z);
+            }
+            if (translation) {
+                object.translateX(translation.x);
+                object.translateY(translation.y);
+                object.translateZ(translation.z);
+            }
             MODELS[name] = object;
             loaded++;
         }, onProgress, onError );
@@ -70,15 +80,10 @@ function init() {
     // model
 
     var castle = MODELS["castle"];
-    castle.rotateY(-Math.PI/2);
-    castle.position.y = -0.2;
     scene.add(castle);
 
-    var dino = MODELS["dino"].clone();
-    dino.position.z = 400;
-    dino.position.y = 3.1;
-    dino.position.x = 0;
-    dino.rotateY(Math.PI);
+    var dino = MODELS["dino"];//.clone();
+    dino.translateZ(-400);
     scene.add(dino);
 
     var numberOfTrees = 2000;
@@ -91,8 +96,10 @@ function init() {
             return v;
         };
         var pos = randomPos(50, 1000);
-        tree.position.x += pos.x;
-        tree.position.z += pos.y;
+
+        tree.translateX(pos.x);
+        tree.translateZ(pos.y);
+        tree.rotateY(Math.random()*Math.PI*2);
         tree.scale.multiplyScalar(Math.random()*0.5+0.75);
         scene.add(tree);
     }
