@@ -10,6 +10,9 @@ var HEIGHT = 2.5;
 var loaded = 0, loading = 0;
 var prevTime;
 
+var scene2, renderer2, camera2;
+var meshfloor;
+
 loadAsset("castle", "SM_Fort", 1.0, new THREE.Vector3(0, -Math.PI/2, 0), new THREE.Vector3(0, -0.2, 0));
 loadAsset("tree1", "sapin", 2.0);
 loadAsset("tree2", "sapin2", 2.0);
@@ -26,12 +29,6 @@ loadAsset("dino", "dino", 10.00, new THREE.Vector3(0, Math.PI, 0), new THREE.Vec
     }
     setTimeout(load, 100);
 })();
-
-
-Player = {
-    realPosition = new THREE.Vector3(0,0,0),
-
-};
 
 
 function loadAsset(name, file, scale, rotation, translation) {
@@ -70,9 +67,8 @@ function loadAsset(name, file, scale, rotation, translation) {
 }
 
 function init() {
-    container = document.createElement( 'div' );
-    document.body.appendChild( container );
-    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
+    var canvas1 = document.getElementById( 'canvas1' );
+    camera = new THREE.PerspectiveCamera( 45, canvas1.width/canvas1.height, 1, 2000 );
 
     // scene
     scene = new THREE.Scene();
@@ -118,16 +114,33 @@ function init() {
     scene.add( plane );
 
     //
-    renderer = new THREE.WebGLRenderer();
+    renderer = new THREE.WebGLRenderer({ canvas: canvas1, antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.setClearColor( 0x93f4ff, 1 );
-    container.appendChild( renderer.domElement );
     document.addEventListener( 'mousemove', onDocumentMouseMove, false );
     document.addEventListener( 'keydown', onKeyDown, false );
     document.addEventListener( 'keyup', onKeyUp, false );
     //
     window.addEventListener( 'resize', onWindowResize, false );
+
+
+    //Scene 2
+    var canvas2 = document.getElementById( 'canvas2' );
+    camera2 = new THREE.PerspectiveCamera( 60, canvas2.width/canvas2.height, 1, 1000 );
+    scene2 = new THREE.Scene();
+
+    meshfloor = new THREE.Mesh(
+	new THREE.PlaneGeometry(20,20,20,20),
+	new THREE.MeshBasicMaterial({color:0x9f6d4c , wireframe:false})
+    );
+    meshfloor.rotation.x -= Math.PI/2;
+    scene2.add(meshfloor);
+    camera2.position.set(0, HEIGHT, -5);
+    camera2.lookAt(new THREE.Vector3(0, HEIGHT, 0));
+	
+    renderer2 = new THREE.WebGLRenderer({ canvas: canvas2, antialias: true } );
+    renderer2.setSize(canvas2.width, canvas2.height);
 }
 function onWindowResize() {
     windowHalfX = window.innerWidth / 2;
@@ -180,12 +193,26 @@ function render() {
     prevTime = time;
 
     var dir = camera.getWorldDirection();
-    if (KEYPRESSED[KEYCODES["w"]]) camera.position.add(dir.multiplyScalar(movementSpeed * dt));
-    if (KEYPRESSED[KEYCODES["s"]]) camera.position.sub(dir.multiplyScalar(movementSpeed * dt));
-    if (KEYPRESSED[KEYCODES["a"]]) camera.rotation.y += rotationSpeed * rotationAlterLeft * dt;
-    if (KEYPRESSED[KEYCODES["d"]]) camera.rotation.y -= rotationSpeed * rotationAlterRight * dt;
+    if (KEYPRESSED[KEYCODES["w"]]) {
+	camera.position.add(dir.multiplyScalar(movementSpeed * dt));
+	camera2.position.sub(dir.multiplyScalar(movementSpeed * dt/100));
+		
+    }
+    if (KEYPRESSED[KEYCODES["s"]]) {
+	camera.position.sub(dir.multiplyScalar(movementSpeed * dt));
+	camera2.position.add(dir.multiplyScalar(movementSpeed * dt/100));
+    }
+    if (KEYPRESSED[KEYCODES["a"]]) {
+	camera.rotation.y += rotationSpeed * rotationAlterLeft * dt;
+	camera2.rotation.y -= rotationSpeed * rotationAlterLeft * dt/5;
+    }
+    if (KEYPRESSED[KEYCODES["d"]]) {
+	camera.rotation.y -= rotationSpeed * rotationAlterRight * dt;
+	camera2.rotation.y += rotationSpeed * rotationAlterLeft * dt/5;
+    }
 
 
 
     renderer.render( scene, camera );
+    renderer2.render(scene2, camera2);
 }
