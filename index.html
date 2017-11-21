@@ -13,25 +13,36 @@
                 height: 100%;
             }
 			#canvas2 {
-		position:absolute;
-    		bottom:0; right:0;
-    		z-index:1;
-    
-    		height:250px; width:250px;
-    		background: white;
-	    }
+				position:absolute;
+				bottom:0; right:0;
+				z-index:1;
+
+				height:250px; width:250px;
+				background: white;
+			}
+			#minimap {
+				position: fixed;
+				top: 10px;
+				right: 10px;
+				width: auto;
+				height: auto;
+			}
 		</style>
 	</head>
 	<body>
 		<div id="container">
 			<canvas id="canvas1"></canvas>
 			<canvas id="canvas2"></canvas>
+			<canvas id="minimap"></canvas>
 		</div>
 
 		<script src="js/three.js"></script>
 		<script src="js/loaders/DDSLoader.js"></script>
 		<script src="js/loaders/MTLLoader.js"></script>
 		<script src="js/loaders/OBJLoader.js"></script>
+
+		<script src="js/entity.js"></script>
+		<script src="js/dino.js"></script>
 
 		<script src="js/app.js"></script>
 		<script src="js/realscene.js"></script>
