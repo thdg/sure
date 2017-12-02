@@ -27,7 +27,9 @@ Dino.prototype.update = function (dt) {
     }
 
     if (pos.distanceTo(virtualCam.position) > 20) {
-        var dir = virtualCam.position.clone().sub(pos).normalize();
+        var dir = virtualCam.position.clone().sub(pos);
+        dir.y = 0;
+        dir.normalize();
         var move = dir.multiplyScalar(this.speed * dt);
         this.translate(move);
     }
@@ -39,10 +41,14 @@ Dino.prototype.getRadius = function () {
     return 5;
 };
 
-function addDino() {
+function addDino(pos) {
     var dino = new Dino({
         model: MODELS["dino"].clone()
     });
-    dino.setPos((new THREE.Vector3(Math.random()*80-40, 0, Math.random()*80-40)).add(virtualCam.position));
+    if (pos) {
+        dino.setPos(new THREE.Vector3(pos.x, 0, pos.z));
+    } else {
+        dino.setPos((new THREE.Vector3(Math.random()*80-40, 0, Math.random()*80-40)).add(virtualCam.position));
+    }
     entities.push(dino);
 }
