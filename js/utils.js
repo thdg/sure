@@ -4,7 +4,6 @@ function loadAsset(name, file, scale, rotation, translation) {
     var onProgress = function ( xhr ) {
         if ( xhr.lengthComputable ) {
             var percentComplete = xhr.loaded / xhr.total * 100;
-            console.log( Math.round(percentComplete, 2) + '% downloaded' );
         }
     };
     var onError = function ( xhr ) { console.log("FAILED TO LOAD MODEL") };

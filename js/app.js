@@ -16,12 +16,12 @@ loadAsset("castle", "SM_Fort", 1.0, new THREE.Vector3(0, -Math.PI/2, 0), new THR
 loadAsset("tree1", "sapin", 2.0);
 loadAsset("tree2", "sapin2", 2.0);
 loadAsset("tree3", "arbre1", 0.75);
+loadAsset("wall", "wall", 10.0);
 loadAsset("chest", "Treasure_Trunk_01", 0.15, new THREE.Vector3(0, -Math.PI/2, 0), new THREE.Vector3(0, -1, 0));
-loadAsset("butterfly", "Butterfly_01", 1.0);
+loadAsset("butterfly", "Butterfly_01", 0.3);
 loadAsset("dino", "dino", 10.00, new THREE.Vector3(0, Math.PI, 0), new THREE.Vector3(0, 3.1, 0));
 
 (function load() {
-    console.log("loading: " + loaded + "/" + loading);
     if (loaded === loading) {
         init();
         prevTime = performance.now();
@@ -108,12 +108,13 @@ function render() {
         }
         else if (timePassed > nextDino) {
             var r = Math.random();
+            r = 0.3;
             if (r < 0.25)
                 addDino();
             else if (r < 0.5)
-                addDino();
+                addWall();
             else if (r < 0.75)
-                addDino();
+                addButterfly();
             else
                 addChest();
             nextDino += timeBetweenDinos + Math.random()*4;

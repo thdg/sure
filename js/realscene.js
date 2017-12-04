@@ -12,7 +12,7 @@ function initRealScene() {
     topCam.rotation.x = -Math.PI/2;
 
     meshfloor = new THREE.Mesh(
-	new THREE.PlaneGeometry(roomSize*2, roomSize*2, 16, 16),
+	new THREE.PlaneGeometry(roomSize*2 + 10, roomSize*2 + 10, 16, 16),
 	new THREE.MeshBasicMaterial({color:0x9f6d4c, wireframe:false})
     );
     meshfloor.rotation.x -= Math.PI/2;
