@@ -16,6 +16,8 @@ loadAsset("castle", "SM_Fort", 1.0, new THREE.Vector3(0, -Math.PI/2, 0), new THR
 loadAsset("tree1", "sapin", 2.0);
 loadAsset("tree2", "sapin2", 2.0);
 loadAsset("tree3", "arbre1", 0.75);
+loadAsset("chest", "Treasure_Trunk_01", 0.15, new THREE.Vector3(0, -Math.PI/2, 0), new THREE.Vector3(0, -1, 0));
+loadAsset("butterfly", "Butterfly_01", 1.0);
 loadAsset("dino", "dino", 10.00, new THREE.Vector3(0, Math.PI, 0), new THREE.Vector3(0, 3.1, 0));
 
 (function load() {
@@ -39,8 +41,12 @@ function init() {
     document.addEventListener( 'keyup', onKeyUp, false );
     window.addEventListener( 'resize', onWindowResize, false );
 
+
     initVirtualScene();
     initRealScene();
+
+
+    addChest(new THREE.Vector3(0, 0, 450));
 
     minimap = new THREE.WebGLRenderer({ alpha: false });
     minimap.setPixelRatio(window.devicePixelRatio);
@@ -67,16 +73,16 @@ function animate() {
     render();
 }
 
-var movementSpeed = 30;
+var movementSpeed = 20;
 var rotationSpeed = 1.5;
 var rotationAlterLeft = 0.80;
-var rotationAlterRight = 1.20;
+var rotationAlterRight = 1.40;
 
 var rotationScale = 1;
 var movementScale = 0.5;
 
 var timePassed = 0;
-var timeBetweenDinos = 5;
+var timeBetweenDinos = 3; // Minimum
 var nextDino = timeBetweenDinos;
 
 var path = [];
@@ -93,9 +99,24 @@ function render() {
 
     if (!paused) {
         timePassed += dt;
-        if (timePassed > nextDino) {
-            //addDino();
-            nextDino += timeBetweenDinos;
+        if (redirectEntity && !redirectEntity._isDeadNow) {
+            // do nothing
+        }
+        else if (redirectEntity && redirectEntity._isDeadNow) {
+            redirectEntity = null;
+            nextDino = timePassed + timeBetweenDinos
+        }
+        else if (timePassed > nextDino) {
+            var r = Math.random();
+            if (r < 0.25)
+                addDino();
+            else if (r < 0.5)
+                addDino();
+            else if (r < 0.75)
+                addDino();
+            else
+                addChest();
+            nextDino += timeBetweenDinos + Math.random()*4;
         }
 
         // Checks if to close to edge and spawns dino if is
@@ -133,6 +154,13 @@ function render() {
         var vDir = virtualCam.getWorldDirection(); // the virtual direction
         var rDir = realCam.getWorldDirection(); // the real direction
 
+        var rotAltLeft = 1;
+        var rotAltRight = 1;
+        if (redirectEntity && redirectEntity._isDeadNow) {
+            rotAltLeft = rotationAlterLeft;
+            rotAltRight = rotationAlterRight;
+        }
+
         if (KEYPRESSED[KEYCODES["w"]]) {
             virtualCam.position.add(vDir.multiplyScalar(movementSpeed * dt));
             realCam.position.add(rDir.multiplyScalar(movementSpeed * movementScale * dt));
@@ -142,18 +170,22 @@ function render() {
             realCam.position.sub(rDir.multiplyScalar(movementSpeed * movementScale * dt));
         }
         if (KEYPRESSED[KEYCODES["a"]]) {
-            virtualCam.rotation.y += rotationSpeed * rotationAlterLeft * dt;
+            virtualCam.rotation.y += rotationSpeed * rotAltLeft * dt;
             realCam.rotation.y += rotationSpeed * rotationScale * dt;
         }
         if (KEYPRESSED[KEYCODES["d"]]) {
-            virtualCam.rotation.y -= rotationSpeed * rotationAlterRight * dt;
+            virtualCam.rotation.y -= rotationSpeed * rotAltRight * dt;
             realCam.rotation.y -= rotationSpeed * rotationScale * dt;
         }
 
-        mmCam.position.x = virtualCam.position.x;
-        mmCam.position.z = virtualCam.position.z;
-        playerModel.position.x = realCam.position.x;
-        playerModel.position.z = realCam.position.z;
+        if (!renderPaths) {
+            mmCam.position.x = virtualCam.position.x;
+            mmCam.position.z = virtualCam.position.z;
+            playerModel.position.x = realCam.position.x;
+            playerModel.position.z = realCam.position.z;
+            playerVM.position.x = virtualCam.position.x;
+            playerVM.position.z = virtualCam.position.z;
+        }
     }
 
     if (eatKey("p")) {
@@ -162,10 +194,26 @@ function render() {
 
     if (eatKey("m")) {
         renderPaths = !renderPaths;
+        if (renderPaths) {
+            mmCam.aspect = 200 / 550;
+            mmCam.updateProjectionMatrix();
+            minimap.setSize( 200, 550);
+            mmCam.position.z = 300;
+            mmCam.position.y = 1000;
+        } else {
+            mmCam.aspect = 200 / 200;
+            mmCam.updateProjectionMatrix();
+            minimap.setSize( 200, 200);
+        }
     }
 
     renderer.render( scene, virtualCam );
-    renderer2.render(scene2, topCam);
+    if (renderPaths) {
+        renderer2.domElement.style.display = "block";
+        renderer2.render(scene2, topCam);
+    } else {
+        renderer2.domElement.style.display = "none";
+    }
     minimap.render( scene, mmCam );
 }
 

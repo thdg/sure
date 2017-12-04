@@ -6,9 +6,6 @@ function Dino(descr) {
     this.model.name = "dino";
     this.model.entity = this;
     this.screamed = false;
-
-    this.sound = new THREE.PositionalAudio(listener);
-    this.sound.setVolume(1.0);
 }
 
 Dino.prototype = new Entity();
@@ -18,10 +15,12 @@ Dino.prototype.update = function (dt) {
     var pos = this.getPos();
 
     if (!this.screamed && pos.distanceTo(virtualCam.position) < 30) {
+        this.sound = new THREE.PositionalAudio(listener);
+        this.sound.setVolume(1.0);
         this.sound.setBuffer(SOUNDS.rawr);
-        this.sound.panner.positionX.value = this.getPos().x;
-        this.sound.panner.positionY.value = this.getPos().y;
-        this.sound.panner.positionZ.value = this.getPos().z;
+        this.sound.panner.positionX.value = pos.x;
+        this.sound.panner.positionY.value = pos.y;
+        this.sound.panner.positionZ.value = pos.z;
         this.sound.play();
         this.screamed = true;
     }
@@ -46,9 +45,10 @@ function addDino(pos) {
         model: MODELS["dino"].clone()
     });
     if (pos) {
-        dino.setPos(new THREE.Vector3(pos.x, 0, pos.z));
+        dino.setPos(new THREE.Vector3(pos.x, virtualCam.position.y, pos.z));
     } else {
-        dino.setPos((new THREE.Vector3(Math.random()*80-40, 0, Math.random()*80-40)).add(virtualCam.position));
+        dino.setPos((new THREE.Vector3(Math.random()*80-40, 0, -Math.random()*80)).add(virtualCam.position));
     }
     entities.push(dino);
+    return dino;
 }

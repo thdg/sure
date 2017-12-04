@@ -7,7 +7,7 @@ function loadAsset(name, file, scale, rotation, translation) {
             console.log( Math.round(percentComplete, 2) + '% downloaded' );
         }
     };
-    var onError = function ( xhr ) { };
+    var onError = function ( xhr ) { console.log("FAILED TO LOAD MODEL") };
     THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
     var mtlLoader = new THREE.MTLLoader();
     mtlLoader.setPath( 'obj/' );
@@ -67,4 +67,17 @@ function onKeyDown(event) {
 function onKeyUp(event) {
     var key = event.keyCode;
     KEYPRESSED[key] = false;
+}
+
+function findGetParameter(parameterName) {
+    var result = null,
+        tmp = [];
+    location.search
+        .substr(1)
+        .split("&")
+        .forEach(function (item) {
+          tmp = item.split("=");
+          if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+        });
+    return result;
 }

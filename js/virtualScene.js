@@ -1,3 +1,5 @@
+var playerVM;
+
 function initVirtualScene() {
     var canvas1 = document.getElementById( 'canvas1' );
     var mm = document.getElementById( 'minimap' );
@@ -26,6 +28,9 @@ function initVirtualScene() {
     //Load a sound and set it as the Audio object's buffer
     audioLoader.load( 'sounds/deathb.wav', function( buffer ) {
         SOUNDS["rawr"] = buffer;
+    });
+    audioLoader.load( 'sounds/gmae.wav', function( buffer ) {
+        SOUNDS["ping"] = buffer;
     });
 
 
@@ -57,6 +62,13 @@ function initVirtualScene() {
     var plane = new THREE.Mesh( geometry, material );
     plane.rotation.x = -Math.PI/2;
     scene.add( plane );
+
+
+    playerVM = new THREE.Mesh(
+        new THREE.CubeGeometry(5, 5, 5),
+        new THREE.MeshBasicMaterial({color: 0xFFFFFF, wireframe:false})
+    );
+    scene.add(playerVM);
 
     // Should be a plane
     // var roadM = new THREE.LineBasicMaterial({ color: 0xff0000, linewidth: 1000 });

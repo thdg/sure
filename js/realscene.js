@@ -24,7 +24,7 @@ function initRealScene() {
     );
     scene2.add(playerModel);
     playerModel.position.set(0, HEIGHT, 0);
-    realCam.position.set(0, HEIGHT, 20);
+    realCam.position.set(0, HEIGHT, roomSize-margin/2);
     realCam.lookAt(new THREE.Vector3(0, HEIGHT, 0).add(points[currentTarget]));
 
     renderer2 = new THREE.WebGLRenderer({ canvas: canvas2, antialias: true } );
