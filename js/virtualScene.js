@@ -38,7 +38,7 @@ function initVirtualScene() {
     var castle = MODELS["castle"];
     scene.add(castle);
 
-    var numberOfTrees = 2000;
+    var numberOfTrees = 1500;
     for (var i=0; i<numberOfTrees; i++) {
         var tree = MODELS["tree"+(i%3+1)].clone();
         var randomPos = function(min, max) {

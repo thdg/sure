@@ -156,7 +156,7 @@ function render() {
 
         var rotAltLeft = 1;
         var rotAltRight = 1;
-        if (redirectEntity && redirectEntity._isDeadNow) {
+        if (redirectEntity && !redirectEntity._isDeadNow) {
             rotAltLeft = rotationAlterLeft;
             rotAltRight = rotationAlterRight;
         }
@@ -178,13 +178,13 @@ function render() {
             realCam.rotation.y -= rotationSpeed * rotationScale * dt;
         }
 
+        playerModel.position.x = realCam.position.x;
+        playerModel.position.z = realCam.position.z;
+        playerVM.position.x = virtualCam.position.x;
+        playerVM.position.z = virtualCam.position.z;
         if (!renderPaths) {
             mmCam.position.x = virtualCam.position.x;
             mmCam.position.z = virtualCam.position.z;
-            playerModel.position.x = realCam.position.x;
-            playerModel.position.z = realCam.position.z;
-            playerVM.position.x = virtualCam.position.x;
-            playerVM.position.z = virtualCam.position.z;
         }
     }
 
