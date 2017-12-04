@@ -45,9 +45,6 @@ function init() {
     initVirtualScene();
     initRealScene();
 
-
-    addChest(new THREE.Vector3(0, 0, 450));
-
     minimap = new THREE.WebGLRenderer({ alpha: false });
     minimap.setPixelRatio(window.devicePixelRatio);
     minimap.setSize(200, 200);
@@ -75,7 +72,13 @@ function animate() {
 
 var movementSpeed = 20;
 var rotationSpeed = 1.5;
+
+// Things work here
 var rotationAlterLeft = 0.80;
+var rotationAlterRight = 1.40;
+
+// Max suggested by papers
+var rotationAlterLeft = 0.85;
 var rotationAlterRight = 1.40;
 
 var rotationScale = 1;
@@ -108,7 +111,6 @@ function render() {
         }
         else if (timePassed > nextDino) {
             var r = Math.random();
-            r = 0.3;
             if (r < 0.25)
                 addDino();
             else if (r < 0.5)
