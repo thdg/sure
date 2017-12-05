@@ -22,6 +22,19 @@ Also mentioned here:
     - http://delivery.acm.org/10.1145/2940000/2931018/p113-grechkin.pdf?ip=110.76.91.217&id=2931018&acc=ACTIVE%20SERVICE&key=0EC22F8658578FE1%2E7500FBAD1E9579D9%2E4D4702B0C3E38B35%2E4D4702B0C3E38B35&CFID=1012850833&CFTOKEN=85488941&__acm__=1512293280_b57c677c8eb4e2fcd1383278b3d7233f
 
 
+And more: 
+
+    Detection thresholds of 75 percent were reached at gains of 0.67 for greater 
+    responses and at 1.24 for smaller responses. 
+    Gain differences within this range cannot be 
+    reliably estimated, i.e., subjects had problems 
+    to discriminate between a 90 degree virtual from 
+    real rotations ranging between 72.6 and 134.3 degree
+    range (0.8,1.5)
+    - http://ieeexplore.ieee.org/document/5072212/
+    
+Disguiding with object density: http://ieeexplore.ieee.org/document/7504752/
+
 
 
 Found a paper doing a similar thing as we are 
