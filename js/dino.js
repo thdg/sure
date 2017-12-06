@@ -31,6 +31,11 @@ Dino.prototype.update = function (dt) {
         dir.normalize();
         var move = dir.multiplyScalar(this.speed * dt);
         this.translate(move);
+    } else {
+	if (!this.model.entity._isDeadNow) {
+		let health = document.getElementById("health")
+		health.value -= 1;
+	}
     }
     this.model.lookAt(virtualCam.position);
     this.model.rotation.y += this.forward.y;

@@ -33,6 +33,12 @@ loadAsset("dino", "dino", 10.00, new THREE.Vector3(0, Math.PI, 0), new THREE.Vec
 
 var entities = [];
 
+var counter = 0;
+function modifyCounter() {
+    counter += 1;
+    document.getElementById("counterValue").innerHTML = counter;
+}
+
 function init() {
 
     document.addEventListener( 'mousemove', onDocumentMouseMove, false );
@@ -234,6 +240,7 @@ function onDocumentMouseClick(event) {
         var intersections = raycaster.intersectObjects(entity.model.children);
         if (intersections.length > 0) {
             entity.hit();
+	    modifyCounter();
         }
     }
 }
