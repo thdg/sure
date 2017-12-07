@@ -116,15 +116,22 @@ function render() {
             nextDino = timePassed + timeBetweenDinos
         }
         else if (timePassed > nextDino) {
-            var r = Math.random();
-            if (r < 0.25)
-                addDino();
-            else if (r < 0.5)
-                addWall();
-            else if (r < 0.75)
-                addButterfly();
-            else
-                addChest();
+            if (redirectEntityType == "random") {
+                var r = Math.random();
+                if (r < 0.25)
+                    addDino();
+                else if (r < 0.5)
+                    addWall();
+                else if (r < 0.75)
+                    addButterfly();
+                else
+                    addChest();
+            } else {
+                if (redirectEntityType == "dino") addDino();
+                if (redirectEntityType == "wall") addWall();
+                if (redirectEntityType == "chest") addChest();
+                if (redirectEntityType == "butterfly") addButterfly();
+            }
             nextDino += timeBetweenDinos + Math.random()*4;
         }
 
