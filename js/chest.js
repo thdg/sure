@@ -32,6 +32,11 @@ Chest.prototype.getRadius = function () {
     return 5;
 };
 
+Chest.prototype.hit = function () {
+    modifyCounter();
+    this.kill();
+};
+
 function addChest(pos) {
     var chest = new Chest({
         model: MODELS["chest"].clone()

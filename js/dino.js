@@ -25,17 +25,17 @@ Dino.prototype.update = function (dt) {
         this.screamed = true;
     }
 
-    if (pos.distanceTo(virtualCam.position) > 20) {
+    if (pos.distanceTo(virtualCam.position) > 10) {
         var dir = virtualCam.position.clone().sub(pos);
         dir.y = 0;
         dir.normalize();
         var move = dir.multiplyScalar(this.speed * dt);
         this.translate(move);
     } else {
-	if (!this.model.entity._isDeadNow) {
-		let health = document.getElementById("health")
-		health.value -= 1;
-	}
+        if (!this.model.entity._isDeadNow) {
+            var health = document.getElementById("health");
+            health.value -= 1;
+        }
     }
     this.model.lookAt(virtualCam.position);
     this.model.rotation.y += this.forward.y;

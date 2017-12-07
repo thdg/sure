@@ -240,7 +240,6 @@ function onDocumentMouseClick(event) {
         var intersections = raycaster.intersectObjects(entity.model.children);
         if (intersections.length > 0) {
             entity.hit();
-	    modifyCounter();
         }
     }
 }

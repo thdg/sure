@@ -9,11 +9,8 @@ This is a final project for the course Human Computer Interaction at KAIST unive
 -------------
 
 Dino_ by Ben Mitchell / `CC BY`_,
-
 Trees_ by Souchiee Blanc / `CC BY`_,
-
 Castle_, butterfly_ and chest_ by Poly by Google / `CC BY`_,
-
 Wall_ by Zaw Imagineering / `CC BY`_,
 
 
