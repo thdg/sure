@@ -51,6 +51,9 @@ var stimulis = {
 function spawnStimuli() {
     // Just set spawn position as opposide of castle (0,0,0)
     var entityType;
+    if (redirectEntityType == "nothing") {
+        // Do nothing
+    }
     if (redirectEntityType == "random") {
         var options = ["dino", "chest"];
         entityType = options[parseInt(Math.random()*options.length)];

@@ -116,7 +116,10 @@ function render() {
             nextDino = timePassed + timeBetweenDinos
         }
         else if (timePassed > nextDino) {
-            if (redirectEntityType == "random") {
+            if (redirectEntityType == "nothing") {
+                // do nothing
+            }
+            else if (redirectEntityType == "random") {
                 var r = Math.random();
                 if (r < 0.25)
                     addDino();
