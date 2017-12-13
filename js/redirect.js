@@ -44,8 +44,8 @@ var redirectEntityType = findGetParameter("level") || "random";
 var stimulis = {
     "dino": [addDino, 10],
     "chest": [addChest, 2],
-    "butterfly": [addButterfly, -10],
-    "wall": [addWall, -11]
+    "butterfly": [addButterfly, -8],
+    "wall": [addWall, -14]
 };
 
 function spawnStimuli() {
@@ -53,6 +53,7 @@ function spawnStimuli() {
     var entityType;
     if (redirectEntityType == "nothing") {
         // Do nothing
+        return;
     }
     if (redirectEntityType == "random") {
         var options = ["dino", "chest"];

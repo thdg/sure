@@ -35,7 +35,7 @@ var entities = [];
 
 var counter = 0;
 function modifyCounter() {
-    counter += 1;
+    counter += 100;
     document.getElementById("counterValue").innerHTML = counter;
 }
 
@@ -91,7 +91,7 @@ var rotationScale = 1;
 var movementScale = 0.5;
 
 var timePassed = 0;
-var timeBetweenDinos = 3; // Minimum
+var timeBetweenDinos = 2; // Minimum
 var nextDino = timeBetweenDinos;
 
 var path = [];
@@ -135,7 +135,7 @@ function render() {
                 if (redirectEntityType == "chest") addChest();
                 if (redirectEntityType == "butterfly") addButterfly();
             }
-            nextDino += timeBetweenDinos + Math.random()*4;
+            nextDino += timeBetweenDinos + Math.random()*3;
         }
 
         // Checks if to close to edge and spawns dino if is
@@ -185,7 +185,7 @@ function render() {
             realCam.position.add(rDir.multiplyScalar(movementSpeed * movementScale * dt));
         }
         if (KEYPRESSED[KEYCODES["s"]]) {
-            virtualCam.position.sub(vDir.multiplyScalar(movementSpeed * dt));
+            virtualCam.position.sub(vDir.multiplyScalar(movementSpeed * 0.5 * dt));
             realCam.position.sub(rDir.multiplyScalar(movementSpeed * movementScale * dt));
         }
         if (KEYPRESSED[KEYCODES["a"]]) {
